@@ -18,28 +18,59 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('LayoutBuilder Example'),
+        title: Text('MediaQuery Example'),
       ),
-      body: Center(
-        // Menggunakan LayoutBuilder untuk membuat widget responsif
-        child: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) {
-            return Container(
-              width: constraints.maxWidth * 0.8, // Menyesuaikan lebar berdasarkan batasan tata letak
-              height: 150,
-              color: Colors.green,
-              child: Center(
-                child: Text(
-                  'Widget Responsif',
-                  style: TextStyle(
-                    fontSize: constraints.maxWidth * 0.08, // Menyesuaikan ukuran teks berdasarkan batasan tata letak
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          // Memeriksa lebar layar
+          if (constraints.maxWidth < 600) {
+            // Jika lebar layar kurang dari 600 piksel (misalnya, mode ponsel)
+            return buildPhoneLayout(context);
+          } else {
+            // Jika lebar layar 600 piksel atau lebih (misalnya, mode tablet)
+            return buildTabletLayout(context);
+          }
+        },
+      ),
+    );
+  }
+
+  Widget buildPhoneLayout(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('Mode Ponsel'),
+          // Tambahkan widget untuk tampilan ponsel di sini
+        ],
+      ),
+    );
+  }
+
+  Widget buildTabletLayout(BuildContext context) {
+    return Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Mode Tablet - Panel Kiri'),
+                // Tambahkan widget untuk panel kiri di sini
+              ],
+            ),
+          ),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Mode Tablet - Panel Kanan'),
+                // Tambahkan widget untuk panel kanan di sini
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
